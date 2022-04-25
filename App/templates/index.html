@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
   
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
      <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
@@ -17,13 +17,50 @@
       <div class="nav-wrapper">
         <a href="#!" class="right">Exam Starter</a>
         <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
-                <li class="active"><a href="/">Home 1</a></li>
-                <li><a href="/static/home">Home 2</a></li>
-            </ul>
         </div>
       </div>
     </nav>
+    <div class="col s8">
+      {%for book in books%}
+        <div class="row col s8">
+            {%for x in range(0,2)%}
+              <div class="card col s2">
+                <div class="card-image">
+                  <img src="https://media.istockphoto.com/photos/flying-color-books-on-pastel-yellow-background-picture-id1304915362?s=612x612">
+                  <span class="card-title">Card Title</span>
+                </div>
+                <div class="card-content">
+                  <p>this a book</p>
+                </div>
+                <div class="card-action">
+                  <a href="#">review</a>
+                </div>
+              </div>
+            {%endfor%}
+          
+        </div>
+      {%endfor%}
+    </div>
+
+      <div class="col s4">
+       <div class="container"> 
+          <div class="row">
+            <p>what book?</p>
+          </div>
+          <div class="row">
+            <form class="col s4">
+              <div class="row">
+                <div class="input-field col s4">
+                  <textarea id="textarea1" class="materialize-textarea"></textarea>
+                  <label for="textarea1">Textarea</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
     
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -39,9 +76,6 @@
     {% endif %}
     {% endwith %}
 
-    <div class="container">
-      <h1>Rendered Page</h1>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script> M.AutoInit(); </script>
