@@ -31,11 +31,13 @@ class Book(db.Model):
   reviews = db.relationship('Review', backref='book', lazy='dynamic')
   
 
-  def get_avg_rating(code):
-    Reviews = db.session.query.filter_by(Book.isbn == code).all()
+  def get_avg_rating(self):
+    Reviews = Review.query.filter_by(isbn = self.isbn).all()
     total = 0
-    for r in Reviews:
-      total += r.rating
-    return total/len(Reviews)
+    if len(Reviews) != 0:
+      for r in Reviews:
+        total += r.rating
+      return total/len(Reviews)
+    return 0
       
     
