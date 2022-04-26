@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
   
-    
-     <!--Import Google Icon Font-->
+    <!-- Font Awesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -15,18 +16,19 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-        <a action="/" class="brand-logo center"><i class="material-icons">book</i>Book Reviews</a>
+        <a href="/" class="brand-logo center"><i class="material-icons">book</i>Book Reviews</a>
       </div>
     </nav>
 
   <div class="row">
-    <section class="col s8 m8" id ="book-section" style="overflow:scroll; height: 100vh"><div class="col 8">
-        {%for num in range(0,(books|length)+1,4) %}
+    <section class="col s8 m8" id ="book-section" style="overflow:scroll; height: 90vh"><div class="col 8">
+        {%for num in range(0,(books|length),3) %}
           <div class="row" >
-              {%for x in range(0,3)%}
+              {%for x in range(3)%}
                 <div class="card col s3" style ="margin: 10px">
                   <div class="card-image">
-                    <img src='{{books[num].url}}' alt="https://media.istockphoto.com/photos/flying-color-books-on-pastel-yellow-background-picture-id1304915362?s=612x612">
+                    
+                    <img src= "{{books[num+x].image}}" alt="https://media.istockphoto.com/photos/flying-color-books-on-pastel-yellow-background-picture-id1304915362?s=612x612">
 
                   </div>
                   <div class="card-content">
@@ -48,48 +50,56 @@
         
       </section>
       <section class="col s4 m4" >
-        <form  action="/review/{{isbn}}" method="post">
-          <div class="row">
-            <div class="input-field">
-              <textarea id="textarea1" class="materialize-textarea" id = 'review' name="review"></textarea>
-              <label for="textarea1">Textarea</label>
-            </div>
-          </div>
-          <div class="input-field"  >
-            <select name = 'rating'>
-              <option value="" disabled selected>rating</option>
-              <option value="1"> 1</option>
-              <option value="2"> 2</option>
-              <option value="3"> 3</option>
-              <option value="4"> 4</option>
-              <option value="5"> 5</option>
-              
-            </select>
-          </div>
-          <div class="input-field">
-            <button class="btn waves-effect waves-light" type="submit" >Submit
-              <i class="material-icons right">send</i>
-            </button>
-          </div>
-        </form>
-        <div class="row" style="overflow:scroll; height:66vh;">
+        <div class="container">
+            <form  action="/review/{{isbn}}" method="post">
+              <div class="row">
+                <div class="input-field">
+                  <textarea id="textarea1" class="materialize-textarea" id = 'review' name="review"></textarea>
+                  <label for="textarea1">Textarea</label>
+                </div>
+              </div>
+              <div class="input-field"  >
+                <select name = 'rating'>
+                  <option value="0" disabled selected>rating</option>
+                  <option value="1"> 1</option>
+                  <option value="2"> 2</option>
+                  <option value="3"> 3</option>
+                  <option value="4"> 4</option>
+                  <option value="5"> 5</option>
+                  
+                </select>
+              </div>
+              <div class="input-field">
+                <button class="btn waves-effect waves-light" type="submit" >Submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+            </form>
+        </div>
+        <div class="row" style="overflow:scroll; height:56vh;">
           {%if reviews%}
             {%for review in reviews%}
-            <div class="card horizontal">
+            <div class="card horizontal" style="margin:10px">
               <div class="card-stacked">
                 <div class="card-content">
+                  <p>review:</p>
                   <p>{{review.text}}</p>
                 </div>
                 <div class="card-content">
-                  <p>rating: {{review.rating}}</p>
+                    <p style="font:bold">rating: </p>
+                  {%for x in range(0,review.rating)%}
+                    <span class="fa fa-star checked" style="color:rgba(255, 208, 0, 0.678)"></span>
+                  {%endfor%}
+                  
                 </div>
                 <div class="card-action">
                   <a href="/delete/{{review.id}}">delete</a>
                 </div>
-            {%endfor%}
-          {%endif%}
+
             </div>
           </div>
+          {%endfor%}
+        {%endif%}
         </div>
       </section> 
     </div>

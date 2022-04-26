@@ -37,7 +37,7 @@ def show(id):
   revs = book.reviews.all()
   if len(revs) != 0:
     return render_template('index.html',reviews = revs,books = books, isbn = id)
-  print(revs)
+
   return render_template('index.html',books = books, isbn = id)
 
 
@@ -45,7 +45,6 @@ def show(id):
 def review(id):
   data = request.form
   data = data.to_dict()
-  print(data)
   if len(data) > 1:
     newReview = Review(  
       text = data['review'],
