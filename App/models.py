@@ -14,10 +14,11 @@ def init_db(app):
     db.init_app(app)
 
 class Review(db.Model):
-  id = db.Column('id',db.String,primary_key=True)
+  id = db.Column(db.Integer,primary_key = True)
   text = db.Column('text',db.String,nullable = True)
   rating= db.Column('rating',db.Integer,nullable = True)
-  isbn= db.Column('isbn',db.String,db.ForeignKey('book.isbn')) 
+  isbn= db.Column('isbn',db.String,db.ForeignKey('book.isbn'))
+  
 
 
 class Book(db.Model):
@@ -27,7 +28,8 @@ class Book(db.Model):
   publisher = db.Column('publisher',db.String)
   author = db.Column('author',db.String)
   image = db.Column('image',db.String)
-  reviews = db.relationship('Review', backref='book', lazy=True)
+  reviews = db.relationship('Review', backref='book', lazy='dynamic')
+  
 
   def get_avg_rating(code):
     Reviews = db.session.query.filter_by(Book.isbn == code).all()

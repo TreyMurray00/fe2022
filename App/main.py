@@ -1,8 +1,8 @@
 import os
-from flask import Flask, redirect, render_template, jsonify, request, send_from_directory, flash
+from flask import Flask, redirect, render_template, jsonify, request, send_from_directory, redirect
 from flask_cors import CORS
 from sqlalchemy.exc import OperationalError
-from App.models import db, get_migrate, create_db,Book
+from App.models import db, get_migrate, create_db,Book,Review
 
 def create_app():
     app = Flask(__name__, static_url_path='/static')
@@ -22,15 +22,47 @@ app = create_app()
 migrate = get_migrate(app)
 
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET','POST'])
 def home():
   books = Book.query.all()
   return render_template('index.html',books=books)
 
 
-@app.route('/static/home', methods=['GET'])
-def home2():
-  return send_from_directory('static', 'index.html')
+@app.route('/book/<id>',methods=['GET'])
+def show(id):
+  books = Book.query.all()
+  book = Book.query.filter_by(isbn = id).first()
+  
+  print(book.reviews.all())
+  revs = book.reviews.all()
+  if len(revs) != 0:
+    return render_template('index.html',reviews = revs,books = books, isbn = id)
+  print(revs)
+  return render_template('index.html',books = books, isbn = id)
+
+
+@app.route('/review/<id>',methods=['POST'])
+def review(id):
+  data = request.form
+  data = data.to_dict()
+  print(data)
+  if len(data) > 1:
+    newReview = Review(  
+      text = data['review'],
+      rating= data['rating'],
+      isbn= id
+    )
+    db.session.add(newReview)
+    db.session.commit()
+  return redirect('/')
+
+@app.route('/delete/<id>',methods=['GET'])
+def delete_review(id):
+  rev = Review.query.filter_by(id = id).first()
+  db.session.delete(rev)
+  db.session.commit()
+  return redirect('/')
+
 
 
 if __name__ == '__main__':
