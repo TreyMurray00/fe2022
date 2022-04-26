@@ -9,19 +9,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Home 1</title>
+    <title>BOOKS</title>
 
   </head>
   <body>
+    <nav>
+      <div class="nav-wrapper">
+        <a action="/" class="brand-logo center"><i class="material-icons">book</i>Book Reviews</a>
+      </div>
+    </nav>
 
   <div class="row">
-    <section class="col s8 m8" id ="book-section" style="overflow:scroll; height: 700px"><div class="col 8">
+    <section class="col s8 m8" id ="book-section" style="overflow:scroll; height: 100vh"><div class="col 8">
         {%for num in range(0,(books|length)+1,4) %}
-          <div class="row col s8" >
+          <div class="row" >
               {%for x in range(0,3)%}
-                <div class="card col s3" style ="margin: 2px">
+                <div class="card col s3" style ="margin: 10px">
                   <div class="card-image">
-                    <img src=`{{books[num].url}}`>
+                    <img src='{{books[num].url}}' alt="https://media.istockphoto.com/photos/flying-color-books-on-pastel-yellow-background-picture-id1304915362?s=612x612">
 
                   </div>
                   <div class="card-content">
@@ -43,14 +48,14 @@
         
       </section>
       <section class="col s4 m4" >
-        <form class="col s12" id = "review" action="/review/{{isbn}}" method="post">
+        <form  action="/review/{{isbn}}" method="post">
           <div class="row">
-            <div class="input-field col s4">
+            <div class="input-field">
               <textarea id="textarea1" class="materialize-textarea" id = 'review' name="review"></textarea>
               <label for="textarea1">Textarea</label>
             </div>
           </div>
-          <div class="input-field col s4"  >
+          <div class="input-field"  >
             <select name = 'rating'>
               <option value="" disabled selected>rating</option>
               <option value="1"> 1</option>
@@ -61,14 +66,13 @@
               
             </select>
           </div>
-          <div class="input-field col 4">
+          <div class="input-field">
             <button class="btn waves-effect waves-light" type="submit" >Submit
               <i class="material-icons right">send</i>
             </button>
           </div>
         </form>
-        <div class="row" style="overflow:scroll; height:700px;">
-          <div class="col s4 m7">
+        <div class="row" style="overflow:scroll; height:66vh;">
           {%if reviews%}
             {%for review in reviews%}
             <div class="card horizontal">
@@ -86,7 +90,6 @@
           {%endif%}
             </div>
           </div>
-        
         </div>
       </section> 
     </div>
