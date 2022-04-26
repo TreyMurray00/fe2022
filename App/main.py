@@ -22,10 +22,10 @@ app = create_app()
 migrate = get_migrate(app)
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET'])
 def home():
   books = Book.query.all()
-  return render_template('index.html',books=books)
+  return render_template('app.html',books=books)
 
 
 @app.route('/book/<id>',methods=['GET'])
@@ -36,9 +36,9 @@ def show(id):
   print(book.reviews.all())
   revs = book.reviews.all()
   if len(revs) != 0:
-    return render_template('index.html',reviews = revs,books = books, isbn = id)
+    return render_template('app.html',reviews = revs,books = books, isbn = id)
 
-  return render_template('index.html',books = books, isbn = id)
+  return render_template('app.html',books = books, isbn = id)
 
 
 @app.route('/review/<id>',methods=['POST'])
